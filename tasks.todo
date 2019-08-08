@@ -1,0 +1,23 @@
+Code:
+    ☐ Enforce Separation of Concerns for CGO
+    ☐ Enhance Documentation
+    Upgrade Pareto Selection:
+        ☐ Use actual pareto function (1 - (1/n^a))
+        ☐ Parameterize Pareto
+    ☐ Allow On-The-Fly setting modification (from command line)
+    Genetics Upgrade:
+        ☐ Use Genetic Algorithm terminology (phenotype, genotype, etc...)
+        ☐ Elitism - this will allow for higher mutation chances without degeneration
+        ☐ Create crossover algorithm
+            ☐ Parameterize this
+        ☐ Remove Mass Killings from selection() - They are now unnecessary due to Pareto Selection
+    Rule Cruncher Upgrades:
+        ☐ Super Crunch for enhanced rule comprehension.
+    ☐ More Optimization Algorithms
+Experiments:
+    ☐ Maximum Profitable Mutation Chance
+    ☐ Diminishing Returns on Population Size
+    ☐ Effects of Different Pareto Params/Recombs etc
+Research:
+    ☐ Genetic Algorithm
+    ☐ Cellular Automata
