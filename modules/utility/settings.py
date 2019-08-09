@@ -5,16 +5,22 @@ import json
 class settings():
     def __init__(self, default_settings):
         '''
-        @param default_settings If a dict, treats that dict like the set of settings. If a string, loads the json file at the location indicated by the string.
+        @param default_settings If a dict, treats that dict like the set of settings. If a string, loads the json file at the location indicated by the string. If a list, load all .json files indicated by the strings.
         '''
         if type(default_settings) is dict:
-            self.template = default_settings
-            self.settings = self._evaluateAll(default_settings)
-        else:
+            loaded_default_settings = default_settings
+        elif type(default_settings) is str:
             with open(default_settings) as o:
                 loaded_default_settings = json.load(o)
-            self.template = loaded_default_settings
-            self.settings = self._evaluateAll(loaded_default_settings)
+        else:
+            loaded_default_settings = {}
+            for i in default_settings:
+                with open(default_settings) as o:
+                    file_default_settings = json.load(o)
+                loaded_default_settings.update(file_default_settings)
+
+        self.template = loaded_default_settings
+        self.settings = self._evaluateAll(loaded_default_settings)
 
     def setSetting(self, key, value, recomputeAll = True, addToTemplate = False):
         '''
