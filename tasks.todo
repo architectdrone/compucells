@@ -1,5 +1,5 @@
 Code:
-    Code Cleanup:
+    ✔ Code Cleanup: @done(19-08-09 11:45)
         ✔ Refactor Project @done(19-08-08 19:50)
         ✔ Remove "CGO" prefix from genetic modules @done(19-08-08 20:01)
         ✔ Enforce Separation of Concerns @done(19-08-08 21:08)

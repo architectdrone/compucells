@@ -46,10 +46,10 @@ def reproduction(batch):
     for i in range(settings.CC_PER_BATCH):
         index = math.floor(min((10*(1/(i+1))), len(batch)-1))
         parent = batch[index]
-        toReturn.append(mutateGenetics(parent))
+        toReturn.append(mutatePhenotype(parent))
     return toReturn
 
-def mutateGenetics(genetic_info):
+def mutatePhenotype(genetic_info):
     '''
     Takes in a PHENOTYPE, returns a mutated PHENOTYPE
     '''
