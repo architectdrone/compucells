@@ -23,27 +23,28 @@ log = {
     'bests': [],
 }
 
-def selection(evaluated_batch):
+def selection(ranked_batch):
     '''
-    Takes a list of tuples. The first element of each is some (float) score. The second element is the phenotype.
-    Culls below average cells. Returns list of tuples, each of which is the genetic info of the instance
+    Culls below average cells.
+    @param ranked_batch RANKED_BATCH
+    @return A sorted BATCH
     '''
     global log
-    scores_only = [i[0] for i in evaluated_batch]
+    scores_only = [i[0] for i in ranked_batch]
     average_score = sum(scores_only)/len(scores_only)
-    survivors = [i for i in evaluated_batch if i[0] >= average_score]
+    survivors = [i for i in ranked_batch if i[0] >= average_score]
     sorted_survivors = sorted(survivors, key=lambda t: t[0])[::-1]
     sorted_survivors_genetic_info_only = [i[1] for i in sorted_survivors]
 
     log['avgs'].append(average_score)
     log['bests'].append(sorted_survivors[0][0])
-    print(f"[SELECTION] AVG={average_score} ELIM={len(evaluated_batch)-len(survivors)} TOP={sorted_survivors[0][0]}")
+    print(f"[SELECTION] AVG={average_score} ELIM={len(ranked_batch)-len(survivors)} TOP={sorted_survivors[0][0]}")
     
     return sorted_survivors_genetic_info_only
 
 def reproduction(batch):
     '''
-    Takes in a list of genetic information, returns a slightly mutated list of genetic information.
+    Takes in a BATCH, returns a slightly mutated BATCH.
     '''
     toReturn = []
     for i in range(settings.CC_PER_BATCH):
@@ -53,9 +54,15 @@ def reproduction(batch):
     return toReturn
 
 def mutateGenetics(genetic_info):
+    '''
+    Takes in a PHENOTYPE, returns a mutated PHENOTYPE
+    '''
     return (mutateFunctionBody(genetic_info[0]), mutateRuleString(genetic_info[1]))
 
 def mutateBit(bit):
+    '''
+    Takes in a bit, returns a mutated bit.
+    '''
     if bit == 1:
         return np.random.choice([1, 0], p=[1-settings.MUTATION_CHANCE, settings.MUTATION_CHANCE])
     else:
@@ -63,7 +70,7 @@ def mutateBit(bit):
 
 def mutateRuleString(rule_string):
     '''
-    Mutates a rulestring
+    Takes in a RULE_STRING, returns a mutated RULE_STRING
     '''
     toReturn = ""
     for i in rule_string:
@@ -72,7 +79,7 @@ def mutateRuleString(rule_string):
 
 def mutateFunctionBody(function_body):
     '''
-    Mutates a function body
+    Takes in a FUNCTION_SPACE, returns a mutated FUNCTION SPACE
     '''
     new_function_body = np.zeros(function_body.shape)
     for x in range(function_body.shape[0]):
