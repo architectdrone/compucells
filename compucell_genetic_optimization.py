@@ -1,11 +1,14 @@
-import compucell as cc
-import cellular_automata as ca
-import cgo_helpers as cgo
+from modules.compucell import compucell
+from modules.compucell import cellular_automata
+
+from modules.optimization.genetic import cgo_helpers as cgo
+from modules.optimization.genetic import cgo_settings
+
 import numpy as np
 import random
 import time
 import json
-import cgo_settings
+
 
 def main():
     current_generation = cgo.generateInitialBatch()
