@@ -1,5 +1,6 @@
 from ...compucell import compucell as cc
 from ...compucell import cellular_automata as ca
+from ...utility.binary_tools import *
 import numpy as np
 import random
 import time
@@ -31,7 +32,7 @@ class functionProxy():
     
     def ruleset(self, tl, tc, tr, cl, _cc, cr, bl, bc, br):
         bit_array = np.array([[tl],[tc],[tr],[cl],[_cc],[cr],[bl],[bc],[br]])
-        integer = cc.oneDBitArrayToInt(bit_array)
+        integer = oneDBitArrayToInt(bit_array)
         return int(self.rulesetString[int(integer)])
 
 def generateRulesetString(length):
@@ -45,14 +46,14 @@ def evaluationFunction(input_array):
     This is a generalized function. Any function body may be provided here, as long as it conforms to the rules.
     '''
     if settings.FUNCTION_NAME == 'ADD2':
-        input = cc.oneDBitArrayToInt(input_array)
+        input = oneDBitArrayToInt(input_array)
         result = (input+2)%16
-        result_array = cc.intToOneDBitArray(result, input_array.shape[0])
+        result_array = intToOneDBitArray(result, input_array.shape[0])
         return result_array
     elif settings.FUNCTION_NAME == 'ADD1':
-        input = cc.oneDBitArrayToInt(input_array)
+        input = oneDBitArrayToInt(input_array)
         result = (input+1)%16
-        result_array = cc.intToOneDBitArray(result, input_array.shape[0])
+        result_array = intToOneDBitArray(result, input_array.shape[0])
         return result_array
 
 def generateInitialBatch():
