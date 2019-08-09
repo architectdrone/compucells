@@ -13,7 +13,7 @@ Code:
         ☐ Elitism - this will allow for higher mutation chances without degeneration
         ☐ Create crossover algorithm
             ☐ Parameterize this
-        ☐ Remove Mass Killings from selection() - They are now unnecessary due to Pareto Selection
+        ✔ Remove Mass Killings from selection() - They are now unnecessary due to Pareto Selection @done(19-08-08 22:15)
     Rule Cruncher Upgrades:
         ☐ Super Crunch for enhanced rule comprehension.
     ☐ More Optimization Algorithms

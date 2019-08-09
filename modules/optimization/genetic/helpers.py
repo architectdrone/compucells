@@ -25,22 +25,18 @@ log = {
 
 def selection(ranked_batch):
     '''
-    Culls below average cells.
+    Sorts a RANKED_BATCH
     @param ranked_batch RANKED_BATCH
     @return A sorted BATCH
     '''
     global log
-    scores_only = [i[0] for i in ranked_batch]
-    average_score = sum(scores_only)/len(scores_only)
-    survivors = [i for i in ranked_batch if i[0] >= average_score]
-    sorted_survivors = sorted(survivors, key=lambda t: t[0])[::-1]
-    sorted_survivors_genetic_info_only = [i[1] for i in sorted_survivors]
+    sorted_ranked_batch = sorted(ranked_batch, key=lambda t: t[0])[::-1]
+    sorted_batch = [i[1] for i in sorted_ranked_batch]
 
-    log['avgs'].append(average_score)
-    log['bests'].append(sorted_survivors[0][0])
-    print(f"[SELECTION] AVG={average_score} ELIM={len(ranked_batch)-len(survivors)} TOP={sorted_survivors[0][0]}")
+    log['bests'].append(sorted_batch[0][0])
+    print(f"[SELECTION] TOP={sorted_batch[0][0]}")
     
-    return sorted_survivors_genetic_info_only
+    return sorted_batch
 
 def reproduction(batch):
     '''
