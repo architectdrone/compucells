@@ -1,12 +1,12 @@
-import compucell as cc
-import cellular_automata as ca
+from ...compucell import compucell as cc
+from ...compucell import cellular_automata as ca
 import numpy as np
 import random
 import time
 import datetime
 import math
 
-import cgo_settings
+from . import cgo_settings
 
 log = {
     'start_time': str(datetime.datetime.now()).replace(" ", "_").replace(":", "-"),

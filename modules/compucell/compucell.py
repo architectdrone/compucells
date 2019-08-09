@@ -21,7 +21,7 @@ ABBBBC
 When all of these parts are put together, we call the resultant space the computation space. (Please note that 
 sometimes the output space is not distinct from the function space.)
 '''
-import cellular_automata
+from . import cellular_automata
 import numpy as np
 
 class compucell():
