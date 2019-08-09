@@ -1,0 +1,6 @@
+A phenotype is all of the information about a compucell needed to reproduce it. The name is from genetic algorithims, but it does not need to be used with a genetic algorithim.
+
+(
+    FUNCTION_SPACE,
+    RULE_STRING
+)

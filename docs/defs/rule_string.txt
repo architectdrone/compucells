@@ -1,0 +1,8 @@
+A rule string is a 512-bit representation of all 512 rules in a cellular automata. 
+To get the next state of a cell from a rule string, convert the current state into an integer by treating the surrounding cells as bits, like surrounding
+nw nc ne cw cc ce sw sc se
+8  7  6  5  4  3  2  1  0
+This tells you what index in the rule string to go to.
+
+RULE_STRING:
+<string with 512 characters of either 1s or 0s>

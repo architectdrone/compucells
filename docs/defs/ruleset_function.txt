@@ -1,0 +1,4 @@
+A function that takes in a current CA state, and returns the next state.
+
+RULESET_FUNCTION:
+<function with eight parameters that returns 1 or 0. Each parameter should be fed a 1 or a 0>

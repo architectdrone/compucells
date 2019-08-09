@@ -1,0 +1,7 @@
+A scored phenotype. The score is always between 1 and 0.
+
+RANKED_PHENOTYPE:
+(
+    <float between 1 and 0>,
+    PHENOTYPE
+)

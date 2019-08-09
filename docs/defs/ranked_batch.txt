@@ -1,0 +1,4 @@
+A list of ranked phenotypes.
+
+RANKED_BATCH:
+[RANKED_PHENOTYPE * N]
