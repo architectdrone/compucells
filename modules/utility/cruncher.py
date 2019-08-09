@@ -2,7 +2,7 @@ import itertools
 
 def cruncher(to_crunch):
     '''
-    Looks for single bit flips.
+    Takes in a list of bit strings, returns a list of bit strings with don't cares highlighted
     '''
     crunched_strings = []
     for i in itertools.combinations(to_crunch, 2):
@@ -20,6 +20,9 @@ def cruncher(to_crunch):
     return crunched_strings
 
 def superCrunch(to_crunch):
+    '''
+    Gets a list of don't cares, and removes all bit strings that are redundant.
+    '''
     iterations = [to_crunch]
     for i in range(len(to_crunch[0])-1):
         iterations.append(cruncher(iterations[-1]))

@@ -10,15 +10,24 @@ class functionProxy():
     '''
     So that rulesets can be dynamically generated.
     '''
-    def __init__(self, rulesetString):
-        self.rulesetString = rulesetString
+    def __init__(self, rule_string):
+        '''
+        @param rule_string RULE_STRING
+        '''
+        self.rule_string = rule_string
     
     def ruleset(self, tl, tc, tr, cl, _cc, cr, bl, bc, br):
+        '''
+        A RULESET_FUNCTION that corresponds to the given RULE_STRING
+        '''
         bit_array = np.array([[tl],[tc],[tr],[cl],[_cc],[cr],[bl],[bc],[br]])
         integer = oneDBitArrayToInt(bit_array)
-        return int(self.rulesetString[int(integer)])
+        return int(self.rule_string[int(integer)])
 
 def generateRulesetString(length):
+    '''
+    Generates a random RULE_STRING of the given length. This should generlly be 512.
+    '''
     toReturn = ""
     for i in range(length):
         toReturn+=(str(random.choice([0,1])))
@@ -26,7 +35,7 @@ def generateRulesetString(length):
 
 def evaluationFunction(input_array):
     '''
-    This is a generalized function. Any function body may be provided here, as long as it conforms to the rules.
+    This is a generalized function. Any function body may be provided here, as long as it takes an INPUT_SPACE and returns an OUTPUT_SPACE.
     '''
     if settings['FUNCTION_NAME'] == 'ADD2':
         input = oneDBitArrayToInt(input_array)
@@ -41,13 +50,13 @@ def evaluationFunction(input_array):
 
 def generateInitialBatch():
     '''
-    Generates initial batch. Returns a list of tuples. The first element is the function space. The second is a ruleset string.
+    Generates a random BATCH.
     '''
     return [(ca.randomSetup(settings['INPUT_SPACE_SIZE'], settings['FUNCTION_SPACE_SIZE']), generateRulesetString(512)) for i in range(settings['CC_PER_BATCH'])]
 
 def performanceEvalulation(batch):
     '''
-    Returns a list of tuples. The first element is a float, corresponding to the performance of the CA at the given index in the list. The second is a tuple of genetic info.
+    Takes in a BATCH, returns a RANKED_BATCH.
     '''
     my_evaluator = cc.compucellEvaluator(evaluationFunction)
     toReturn = []
