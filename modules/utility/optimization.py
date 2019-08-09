@@ -47,6 +47,8 @@ def evaluationFunction(input_array):
         result = (input+1)%16
         result_array = intToOneDBitArray(result, input_array.shape[0])
         return result_array
+    elif settings['FUNCTION_NAME'] == 'TRANSLATE':
+        return input_array
 
 def generateInitialBatch():
     '''
