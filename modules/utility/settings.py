@@ -1,16 +1,44 @@
 #Tools for creating settings
 import copy
+import json
 
 class settings():
-    def __init__(self, defaultSettings):
-        self.template = defaultSettings
-        self.settings = self._evaluateAll(defaultSettings)
-    
-    #def loadFile(self, )
+    def __init__(self, default_settings):
+        '''
+        @param default_settings If a dict, treats that dict like the set of settings. If a string, loads the json file at the location indicated by the string.
+        '''
+        if type(default_settings) is dict:
+            self.template = default_settings
+            self.settings = self._evaluateAll(default_settings)
+        else:
+            with open(default_settings) as o:
+                loaded_default_settings = json.load(o)
+            self.template = loaded_default_settings
+            self.settings = self._evaluateAll(loaded_default_settings)
 
-    def set(self, key, value, recomputeAll = True):
-        templateCopy = copy.copy(self.template)
-        self.settings = self._evaluateAll(templateCopy)
+    def setSetting(self, key, value, recomputeAll = True, addToTemplate = False):
+        '''
+        Sets a setting.
+        @param recomputeAll If true, all values will be recomputed based off of the new value.
+        @param addToTemplate If true, all future calls to setSetting will use the new value. No effect when not an expression or when new key.
+        '''
+        if type(value) == str and value[0] == '@':
+            pass
+        else:
+            self.template[key] = value
+
+        if recomputeAll:
+            if addToTemplate:
+                self.template[key] = value
+                self.settings = self._evaluateAll(self.template)
+            else:
+                templateCopy = copy.copy(self.template)
+                templateCopy[key] = value
+                self.settings = self._evaluateAll(templateCopy)
+        else:
+            if addToTemplate:
+                self.template[key] = value
+            self.settings[key] = value
 
     def _evaluate(self, expression, non_expressions):
         assert expression[0] == '@', "Not an expression!"
@@ -23,6 +51,8 @@ class settings():
         for key, value in to_evaluate.items():
             if type(value) == str and value[0] == '@':
                 expressions[key] = value
+            elif type(value) == str and value[0] != '@':
+                non_expressions[key] = value
             else:
                 non_expressions[key] = value
         
@@ -50,20 +80,28 @@ class settings():
             expressions = remaining_expressions
             passes+=1
 
-             
-        
         return non_expressions
         
-        
+def parseCommandLine(command_line, settings):
+    '''
+    Takes in some command line arguments, and transforms the settings based off of them. To set a setting from command line, syntax is:
+    <setting>=<new_value>
+    New value may be a string, int, or float. If it is a string, make sure that it is surrounded with quotes!
 
-
-
-my_settings = settings(
-    {
-        'a': 5,
-        'b': 2,
-        'y': "@5*x",
-        'x': "@a+b"
-    }
-)
-print(my_settings.settings)
+    @param command_line A list of strings from the command line. You can just put sys.argv here.
+    @param settings The settings object to transform.
+    @return The transformed settings object.
+    '''
+    new_settings = copy.copy(settings)
+    for i in command_line:
+        if '=' in i:
+            key = i.split("=")[0]
+            value = i.split("=")[1]
+            if value[0] == "'" or value[0] == '"':
+                value = value.replace("'","").replace('"',"")
+            elif "." in value:
+                value = float(value)
+            else:
+                value = int(value)
+            new_settings.setSetting(key, value)
+    return new_settings
