@@ -1,7 +1,7 @@
 from modules.compucell import compucell
 from modules.utility import cruncher
-from modules.optimization.genetic import helpers as cgo_helpers
-from modules.optimization.genetic import settings as cgo_settings
+from modules.optimization.genetic import helpers as go_helpers
+from modules.optimization.genetic import settings as go_settings
 import sys
 import json
 import numpy as np
@@ -12,11 +12,11 @@ data = json.load(to_investigate)
 to_investigate.close()
 
 function_space = np.asarray(data['function'])
-ruleset_helper = cgo_helpers.functionProxy(data['rs'])
+ruleset_helper = go_helpers.functionProxy(data['rs'])
 ruleset = ruleset_helper.ruleset
 
-my_compucell = compucell.compucell(function_space, cgo_settings.ITERATIONS, ruleset)
-my_evaluator = compucell.compucellEvaluator(cgo_helpers.evaluationFunction)
+my_compucell = compucell.compucell(function_space, go_settings.ITERATIONS, ruleset)
+my_evaluator = compucell.compucellEvaluator(go_helpers.evaluationFunction)
 
 selection = ""
 if len(sys.argv) >= 3:
@@ -32,7 +32,7 @@ else:
 
 if selection == 'csa':
     print("CROSS SECTIONAL ANALYSIS")
-    print("(Using the function defined in cgo_helpers (evaluationFunction))")
+    print("(Using the function defined in go_helpers (evaluationFunction))")
 
     result = my_evaluator.evaluate(my_compucell, verbose=True)
     print(f"RESULT = {result}")
@@ -48,12 +48,12 @@ elif selection == 'id':
     my_compucell.cellular_automata.verbose = True
     
     targets = []
-    for i in range(cgo_settings.INPUT_SPACE_SIZE):
-        bit_array = cgo_helpers.evaluationFunction(compucell.intToOneDBitArray(to_watch, 4))
+    for i in range(go_settings.INPUT_SPACE_SIZE):
+        bit_array = go_helpers.evaluationFunction(compucell.intToOneDBitArray(to_watch, 4))
         if bit_array[i] == 1:
-            targets.append((i, cgo_settings.FUNCTION_SPACE_SIZE))
+            targets.append((i, go_settings.FUNCTION_SPACE_SIZE))
     my_compucell.cellular_automata.targets = targets
-    my_compucell.execute(compucell.intToOneDBitArray(to_watch, cgo_settings.INPUT_SPACE_SIZE))
+    my_compucell.execute(compucell.intToOneDBitArray(to_watch, go_settings.INPUT_SPACE_SIZE))
 
 elif selection == 'rss':
     print("RULESET SIMPLIFICATION")

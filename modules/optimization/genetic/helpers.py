@@ -6,18 +6,18 @@ import time
 import datetime
 import math
 
-from . import cgo_settings
+from . import settings
 
 log = {
     'start_time': str(datetime.datetime.now()).replace(" ", "_").replace(":", "-"),
-    'function_name': cgo_settings.FUNCTION_NAME,
-    'cc_per_batch': cgo_settings.CC_PER_BATCH,
-    'function_space_size': cgo_settings.FUNCTION_SPACE_SIZE,
-    'iterations': cgo_settings.ITERATIONS,
-    'runs': cgo_settings.RUNS,
-    'performance_threshold': cgo_settings.PERFORMANCE_THRESHOLD,
-    'input_space_size': cgo_settings.INPUT_SPACE_SIZE,
-    'mutation_chance': cgo_settings.MUTATION_CHANCE,
+    'function_name': settings.FUNCTION_NAME,
+    'cc_per_batch': settings.CC_PER_BATCH,
+    'function_space_size': settings.FUNCTION_SPACE_SIZE,
+    'iterations': settings.ITERATIONS,
+    'runs': settings.RUNS,
+    'performance_threshold': settings.PERFORMANCE_THRESHOLD,
+    'input_space_size': settings.INPUT_SPACE_SIZE,
+    'mutation_chance': settings.MUTATION_CHANCE,
     'avgs': [],
     'bests': [],
 }
@@ -44,12 +44,12 @@ def evaluationFunction(input_array):
     '''
     This is a generalized function. Any function body may be provided here, as long as it conforms to the rules.
     '''
-    if cgo_settings.FUNCTION_NAME == 'ADD2':
+    if settings.FUNCTION_NAME == 'ADD2':
         input = cc.oneDBitArrayToInt(input_array)
         result = (input+2)%16
         result_array = cc.intToOneDBitArray(result, input_array.shape[0])
         return result_array
-    elif cgo_settings.FUNCTION_NAME == 'ADD1':
+    elif settings.FUNCTION_NAME == 'ADD1':
         input = cc.oneDBitArrayToInt(input_array)
         result = (input+1)%16
         result_array = cc.intToOneDBitArray(result, input_array.shape[0])
@@ -59,7 +59,7 @@ def generateInitialBatch():
     '''
     Generates initial batch. Returns a list of tuples. The first element is the function space. The second is a ruleset string.
     '''
-    return [(ca.randomSetup(cgo_settings.INPUT_SPACE_SIZE, cgo_settings.FUNCTION_SPACE_SIZE), generateRulesetString(512)) for i in range(cgo_settings.CC_PER_BATCH)]
+    return [(ca.randomSetup(settings.INPUT_SPACE_SIZE, settings.FUNCTION_SPACE_SIZE), generateRulesetString(512)) for i in range(settings.CC_PER_BATCH)]
 
 def performanceEvalulation(batch):
     '''
@@ -70,7 +70,7 @@ def performanceEvalulation(batch):
     for i in batch:
         my_function_proxy = functionProxy(i[1])
         ruleset = my_function_proxy.ruleset
-        compucell_to_evaluate = cc.compucell(i[0], cgo_settings.FUNCTION_SPACE_SIZE, ruleset)
+        compucell_to_evaluate = cc.compucell(i[0], settings.FUNCTION_SPACE_SIZE, ruleset)
         toReturn.append((my_evaluator.evaluate(compucell_to_evaluate), i))
 
     return toReturn
@@ -98,7 +98,7 @@ def reproduction(batch):
     Takes in a list of genetic information, returns a slightly mutated list of genetic information.
     '''
     toReturn = []
-    for i in range(cgo_settings.CC_PER_BATCH):
+    for i in range(settings.CC_PER_BATCH):
         index = math.floor(min((10*(1/(i+1))), len(batch)-1))
         parent = batch[index]
         toReturn.append(mutateGenetics(parent))
@@ -109,9 +109,9 @@ def mutateGenetics(genetic_info):
 
 def mutateBit(bit):
     if bit == 1:
-        return np.random.choice([1, 0], p=[1-cgo_settings.MUTATION_CHANCE, cgo_settings.MUTATION_CHANCE])
+        return np.random.choice([1, 0], p=[1-settings.MUTATION_CHANCE, settings.MUTATION_CHANCE])
     else:
-        return np.random.choice([1, 0], p=[cgo_settings.MUTATION_CHANCE, 1-cgo_settings.MUTATION_CHANCE])
+        return np.random.choice([1, 0], p=[settings.MUTATION_CHANCE, 1-settings.MUTATION_CHANCE])
 
 def mutateRuleString(rule_string):
     '''
