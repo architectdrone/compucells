@@ -3,7 +3,7 @@ Code:
         ✔ Refactor Project @done(19-08-08 19:50)
         ✔ Remove "CGO" prefix from genetic modules @done(19-08-08 20:01)
         ✔ Enforce Separation of Concerns @done(19-08-08 21:08)
-        ☐ Enhance Documentation
+        ✔ Enhance Documentation @done(19-08-08 22:05)
     Upgrade Pareto Selection:
         ☐ Use actual pareto function (1 - (1/n^a))
         ☐ Parameterize Pareto
