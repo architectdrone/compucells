@@ -7,18 +7,9 @@ import time
 import datetime
 import math
 
-from . import settings
-
+#from . import settings
+settings = {}
 log = {
-    'start_time': str(datetime.datetime.now()).replace(" ", "_").replace(":", "-"),
-    'function_name': settings.FUNCTION_NAME,
-    'cc_per_batch': settings.CC_PER_BATCH,
-    'function_space_size': settings.FUNCTION_SPACE_SIZE,
-    'iterations': settings.ITERATIONS,
-    'runs': settings.RUNS,
-    'performance_threshold': settings.PERFORMANCE_THRESHOLD,
-    'input_space_size': settings.INPUT_SPACE_SIZE,
-    'mutation_chance': settings.MUTATION_CHANCE,
     'avgs': [],
     'bests': [],
 }
@@ -43,7 +34,7 @@ def reproduction(batch):
     Takes in a BATCH, returns a slightly mutated BATCH.
     '''
     toReturn = []
-    for i in range(settings.CC_PER_BATCH):
+    for i in range(settings['CC_PER_BATCH']):
         index = math.floor(min((10*(1/(i+1))), len(batch)-1))
         parent = batch[index]
         toReturn.append(mutatePhenotype(parent))
@@ -60,9 +51,9 @@ def mutateBit(bit):
     Takes in a bit, returns a mutated bit.
     '''
     if bit == 1:
-        return np.random.choice([1, 0], p=[1-settings.MUTATION_CHANCE, settings.MUTATION_CHANCE])
+        return np.random.choice([1, 0], p=[1-settings['MUTATION_CHANCE'], settings['MUTATION_CHANCE']])
     else:
-        return np.random.choice([1, 0], p=[settings.MUTATION_CHANCE, 1-settings.MUTATION_CHANCE])
+        return np.random.choice([1, 0], p=[settings['MUTATION_CHANCE'], 1-settings['MUTATION_CHANCE']])
 
 def mutateRuleString(rule_string):
     '''
