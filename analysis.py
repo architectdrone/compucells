@@ -1,7 +1,7 @@
 from modules.compucell import compucell
 from modules.utility import cruncher
-from modules.optimization.genetic import cgo_helpers
-from modules.optimization.genetic import cgo_settings
+from modules.optimization.genetic import helpers as cgo_helpers
+from modules.optimization.genetic import settings as cgo_settings
 import sys
 import json
 import numpy as np
