@@ -15,7 +15,7 @@ class settings():
         else:
             loaded_default_settings = {}
             for i in default_settings:
-                with open(default_settings) as o:
+                with open(i) as o:
                     file_default_settings = json.load(o)
                 loaded_default_settings.update(file_default_settings)
 
