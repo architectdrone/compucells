@@ -5,9 +5,9 @@ Code:
         ✔ Enforce Separation of Concerns @done(19-08-08 21:08)
         ✔ Enhance Documentation @done(19-08-08 22:05)
     Upgrade Pareto Selection:
-        ☐ Use actual pareto function (1 - (1/n^a))
+        ✘ Use actual pareto function (1 - (1/n^a)) @cancelled(19-08-09 18:53)
         ☐ Parameterize Pareto
-    ☐ Allow On-The-Fly setting modification (from command line)
+    ✔ Allow On-The-Fly setting modification (from command line) @done(19-08-09 18:53)
     Genetics Upgrade:
         ☐ Use Genetic Algorithm terminology (phenotype, genotype, etc...)
         ☐ Elitism - this will allow for higher mutation chances without degeneration
