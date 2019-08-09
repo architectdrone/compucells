@@ -1,8 +1,9 @@
 from modules.compucell import compucell
 from modules.utility import cruncher
-from modules.optimization.genetic import helpers as go_helpers
+from modules.optimization.genetic import helpers as go
 from modules.optimization.genetic import settings as go_settings
 from modules.utility.binary_tools import *
+from modules.utility import optimization as o
 import sys
 import json
 import numpy as np
@@ -13,11 +14,11 @@ data = json.load(to_investigate)
 to_investigate.close()
 
 function_space = np.asarray(data['function'])
-ruleset_helper = go_helpers.functionProxy(data['rs'])
+ruleset_helper = o.functionProxy(data['rs'])
 ruleset = ruleset_helper.ruleset
 
 my_compucell = compucell.compucell(function_space, go_settings.ITERATIONS, ruleset)
-my_evaluator = compucell.compucellEvaluator(go_helpers.evaluationFunction)
+my_evaluator = compucell.compucellEvaluator(o.evaluationFunction)
 
 selection = ""
 if len(sys.argv) >= 3:
@@ -33,7 +34,7 @@ else:
 
 if selection == 'csa':
     print("CROSS SECTIONAL ANALYSIS")
-    print("(Using the function defined in go_helpers (evaluationFunction))")
+    print("(Using the function defined in go (evaluationFunction))")
 
     result = my_evaluator.evaluate(my_compucell, verbose=True)
     print(f"RESULT = {result}")
@@ -50,7 +51,7 @@ elif selection == 'id':
     
     targets = []
     for i in range(go_settings.INPUT_SPACE_SIZE):
-        bit_array = go_helpers.evaluationFunction(intToOneDBitArray(to_watch, 4))
+        bit_array = o.evaluationFunction(intToOneDBitArray(to_watch, 4))
         if bit_array[i] == 1:
             targets.append((i, go_settings.FUNCTION_SPACE_SIZE))
     my_compucell.cellular_automata.targets = targets
