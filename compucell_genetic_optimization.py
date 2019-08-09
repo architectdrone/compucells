@@ -1,9 +1,8 @@
 from modules.compucell import compucell
 from modules.compucell import cellular_automata
 from modules.optimization.genetic import helpers as go
-from modules.optimization.genetic import settings
 from modules.utility import optimization as o
-from modules.utility import settings as new_settings
+from modules.utility import settings as settings_system
 import numpy as np
 import random
 import time
@@ -15,16 +14,15 @@ settings_files = [
     'modules\\optimization\\genetic\\defaults.json'
 ]
 
-all_settings = new_settings.settings(settings_files)
-all_settings = new_settings.parseCommandLine(sys.argv, all_settings)
+all_settings = settings_system.settings(settings_files)
+all_settings = settings_system.parseCommandLine(sys.argv, all_settings)
+settings = go.log['settings'] = o.settings = go.settings = all_settings.settings
 
-o.settings = go.settings = all_settings.settings
-
-print("Settings: ", all_settings.settings)
+print("Settings: ", settings)
 
 def main():
     current_generation = o.generateInitialBatch()
-    for i in range(settings.RUNS):
+    for i in range(settings['RUNS']):
         print(f"[MAIN] RUN {i}")
         start_time = time.time()
         selected = go.selection(o.performanceEvalulation(current_generation))
