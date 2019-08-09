@@ -1,0 +1,4 @@
+A series of bits representing the input into a compucell.
+
+INPUT_SPACE:
+VECTOR_PLANE

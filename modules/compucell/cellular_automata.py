@@ -16,21 +16,19 @@ class celluarAutomata():
     def setRuleset(self, ruleset):
         '''
         Sets the ruleset for the automata. 
-        ruleset: A function with eight int inputs, and one int output. The eight inputs correspond to, in order,
-            -TOP LEFT
-            -TOP CENTER
-            -TOP RIGHT
-            -LEFT
-            -CENTER
-            -RIGHT
-            -BOTTOM LEFT
-            -BOTTOM CENTER
-            -BOTTOM RIGHT 
+        @param ruleset RULESET_FUNCTION 
         '''
 
         self.ruleset = ruleset
     
     def execute(self, positions, iterations, verbose = False):
+        '''
+        Runs the cellular automata.
+        @param positions A PLANE of initial positions
+        @param iterations number of times to iterate
+        @param verbose Whether or not to print the state.
+        @return A PLANE of final positions.
+        '''
         myCellular = _cellularAutomataInstance(positions, self.ruleset, targets = self.targets)
         if verbose or self.verbose:
             print(myCellular)
@@ -48,9 +46,9 @@ class _cellularAutomataInstance():
 
     def __init__(self, startingPositions, ruleset, targets = []):
         '''
-        startingPositions: A 2D numpy array of any size, with valid enumerated valued at every position.
-        ruleset: See cellularAutomata's setRuleset function
-        targets: A list of tuples representing coordinates to highlight. Only makes since if you are printing it.
+        @param startingPositions PLANE
+        @param ruleset RULESET_FUNCTION
+        @param targets A list of tuples representing coordinates to highlight. Only makes since if you are printing it.
         '''
 
         self.positions = startingPositions
@@ -114,6 +112,9 @@ class _cellularAutomataInstance():
         return toReturn
 
 def conway(tl, tc, tr, cl, cc, cr, bl, bc, br):
+    '''
+    A test RULESET_FUNCTION
+    '''
     numberOfNeighbors = tl+tc+tr+cl+cr+bl+bc+br
     live = cc == 1
     #print(live, numberOfNeighbors)
@@ -134,6 +135,9 @@ def conway(tl, tc, tr, cl, cc, cr, bl, bc, br):
         return 0
 
 def randomSetup(x, y):
+    '''
+    Creates a random PLANE.
+    '''
     toReturn = np.zeros((x, y))
 
     for i_x in range(x):

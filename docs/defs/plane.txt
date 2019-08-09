@@ -1,0 +1,4 @@
+The space in which a cellular automata occurs.
+
+PLANE:
+<MxN numpy array containing 1s and 0s>

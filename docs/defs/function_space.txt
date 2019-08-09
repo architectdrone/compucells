@@ -1,0 +1,4 @@
+The function space is the part of the compucell that exists in the same plane as the input and output, and acts upon the input to produce some output
+
+FUNCTION_SPACE:
+PLANE

@@ -30,6 +30,12 @@ class compucell():
     Represents a compucell. Takes an input through the execute function, and returns an output, based on given parameters.
     '''
     def __init__(self, function_space, iterations, ruleset, outputPartOfFunctionSpace = True):
+        '''
+        @param function_space FUNCTION_SPACE
+        @param iterations Number of times to run the CA in each compucell
+        @param RULESET_FUNCTION
+        @param outputPartOfFunctionSpace A boolean representing whether or not the output space is distinct from the function space.
+        '''
         self.function_space = function_space
         self.iterations = iterations
         self.outputPartOfFunctionSpace = outputPartOfFunctionSpace
@@ -37,6 +43,11 @@ class compucell():
         self.cellular_automata.setRuleset(ruleset)
 
     def execute(self, input):
+        '''
+        Runs the compucell.
+        @param INPUT_SPACE
+        @return OUTPUT_SPACE
+        '''
         width = self.function_space.shape[1]
         height = self.function_space.shape[0]
 
@@ -54,13 +65,22 @@ class compucell():
 class compucellEvaluator():
     '''
     Evaluates a compucell. Given a compucell, and a desired function, ranks the compucell's performance on the function.
-    The function must take a 1D numpy array.
+    
     '''
 
     def __init__(self, evaluateFunction):
+        '''
+        @param evaluateFunction The function to evaluate against. The function must take an INPUT_SPACE and return an OUTPUT_SPACE.
+        '''
         self.evaluateFunction = evaluateFunction
     
     def evaluate(self, compucell, verbose = False):
+        '''
+        Evaluates a compucell.
+        @param compucell The compucell to evaluate.
+        @param verbose Whether or not to print information about each test.
+        @return A score from 1 to 0.
+        '''
         height = compucell.function_space.shape[0]
         max_int = 2**height
 
@@ -83,14 +103,4 @@ class compucellEvaluator():
         
         performance = score/max_score
         return performance
-
-# my_compucell = compucell(cellular_automata.randomSetup(4, 3), 4, cellular_automata.conway)
-# def addTwo(input_array):
-#     input = oneDBitArrayToInt(input_array)
-#     result = (input+2)%16
-#     result_array = intToOneDBitArray(result, input_array.shape[0])
-#     return result_array
-
-# my_evaluator = compucellEvaluator(addTwo)
-# print(my_evaluator.evaluate(my_compucell))
         

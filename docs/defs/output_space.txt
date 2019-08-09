@@ -1,0 +1,4 @@
+A series of bits representing the output from a compucell.
+
+OUTPUT_SPACE:
+VECTOR_PLANE

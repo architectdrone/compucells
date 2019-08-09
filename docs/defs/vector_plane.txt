@@ -1,0 +1,4 @@
+A PLANE with width 1.
+
+VECTOR_PLANE:
+PLANE(1xM)
