@@ -1,7 +1,9 @@
 Code:
-    ✔ Refactor Project @done(19-08-08 19:50)
-    ☐ Enforce Separation of Concerns for CGO
-    ☐ Enhance Documentation
+    Code Cleanup:
+        ✔ Refactor Project @done(19-08-08 19:50)
+        ☐ Remove "CGO" prefix from genetic modules
+        ☐ Enforce Separation of Concerns
+        ☐ Enhance Documentation
     Upgrade Pareto Selection:
         ☐ Use actual pareto function (1 - (1/n^a))
         ☐ Parameterize Pareto
