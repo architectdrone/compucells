@@ -33,8 +33,8 @@ def selection(ranked_batch):
     sorted_ranked_batch = sorted(ranked_batch, key=lambda t: t[0])[::-1]
     sorted_batch = [i[1] for i in sorted_ranked_batch]
 
-    log['bests'].append(sorted_batch[0][0])
-    print(f"[SELECTION] TOP={sorted_batch[0][0]}")
+    log['bests'].append(sorted_ranked_batch[0][0])
+    print(f"[SELECTION] TOP={sorted_ranked_batch[0][0]}")
     
     return sorted_batch
 
