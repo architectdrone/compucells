@@ -22,6 +22,7 @@ When all of these parts are put together, we call the resultant space the comput
 sometimes the output space is not distinct from the function space.)
 '''
 from . import cellular_automata
+from ..utility.binary_tools import *
 import numpy as np
 
 class compucell():
