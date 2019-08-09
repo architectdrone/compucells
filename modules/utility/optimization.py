@@ -54,7 +54,7 @@ def generateInitialBatch():
     '''
     Generates a random BATCH.
     '''
-    return [(ca.randomSetup(settings['INPUT_SPACE_SIZE'], settings['FUNCTION_SPACE_SIZE']), generateRulesetString(512)) for i in range(settings['CC_PER_BATCH'])]
+    return [(ca.randomSetup(settings['INPUT_SPACE_SIZE'], settings['FUNCTION_SPACE_SIZE']), generateRulesetString(512)) for i in range(settings['PHENOTYPES_PER_BATCH'])]
 
 def performanceEvalulation(batch):
     '''

@@ -34,7 +34,7 @@ def reproduction(batch):
     Takes in a BATCH, returns a slightly mutated BATCH.
     '''
     toReturn = []
-    for i in range(settings['CC_PER_BATCH']):
+    for i in range(settings['PHENOTYPES_PER_BATCH']):
         index = math.floor(min((10*(1/(i+1))), len(batch)-1))
         parent = batch[index]
         toReturn.append(mutatePhenotype(parent))
