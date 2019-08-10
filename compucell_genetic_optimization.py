@@ -4,6 +4,7 @@ from modules.optimization.genetic import helpers as go
 from modules.utility import optimization as o
 from modules.utility import settings as settings_system
 import numpy as np
+import os
 import random
 import time
 import sys
@@ -38,7 +39,14 @@ def main():
 
     go.log['function'] = sorted_scores[-1][1][0].tolist()
     go.log['rs'] = sorted_scores[-1][1][1]
-    f = open(f"run_info//{go.log['start_time']}.txt","w")
+    
+    file_location = settings['LOG_ROOT_FOLDER']+"//"+settings['LOG_SPECIFIC_FOLDER']
+    try:
+        os.makedirs(file_location)
+    except FileExistsError:
+        # directory already exists
+        pass
+    f = open(f"{file_location}//{go.log['start_time']}.txt","w")
     json.dump(go.log, f)
     f.close()
 
