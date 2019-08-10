@@ -32,13 +32,41 @@ def selection(ranked_batch):
 def reproduction(batch):
     '''
     Takes in a BATCH, returns a slightly mutated BATCH.
+    Top performers should be at the front of the batch.
     '''
     toReturn = []
-    for i in range(settings['PHENOTYPES_PER_BATCH']):
-        index = math.floor(min((10*(1/(i+1))), len(batch)-1))
+    toReturn.append(batch[0]) #Elitism
+    for i in range(settings['PHENOTYPES_PER_BATCH']-1):
+        index = burritoBowlMap(i)
         parent = batch[index]
         toReturn.append(mutatePhenotype(parent))
     return toReturn
+
+def burritoBowlMap(x):
+    '''
+    This mapping function has two constant parameters: I and P. (Defined as BB_I and BB_P in settings)
+    Each parent (sorted from best to worst, with best having index 0) gets either I-P*x or 0 children (whichever is greater).
+    (For example, if I is 100, and P is 10, 0 would get 100, 1 would get 90, 2 would get 80 ...)
+    The Burrito Bowl function takes in a child and assigns it a parent's index based off of this idea.
+    (I arrived at this function after a lot of algebra, so you will have to take my word for it that it works. Also try plotting it on your graphing calculator)
+
+    BB(x) = -(-2I+P-sqrt(4I^2+4PI+P^2-8PX))/2P
+
+    If N is the number of children needing to be assigned, make sure that:
+
+    (4I^2+4PI+P^2)/8P >= N-1 (Preferrably Equal)
+
+    Or not every child will get a parent, which would sad. (Also, the script will crash.)
+    '''
+
+    I = settings['BB_I']
+    P = settings['BB_P']
+    N = settings['PHENOTYPES_PER_BATCH']
+
+    assert ((4*(I**2))+(4*P*I)+P**2)/8*P >= N-1, "Check parameters BB_P and BB_I"
+    inside_sqr_root = 4*(I**2)+4*P*I+(P**2)-8*P*x
+    BB = -(2*I+P+math.sqrt(inside_sqr_root))/(2*P)
+    return math.ceil(BB)
 
 def mutatePhenotype(genetic_info):
     '''

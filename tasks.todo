@@ -4,13 +4,14 @@ Code:
         ✔ Remove "CGO" prefix from genetic modules @done(19-08-08 20:01)
         ✔ Enforce Separation of Concerns @done(19-08-08 21:08)
         ✔ Enhance Documentation @done(19-08-08 22:05)
-    Upgrade Pareto Selection:
+    ✔ Upgrade Pareto Selection: @done(19-08-10 13:28)
         ✘ Use actual pareto function (1 - (1/n^a)) @cancelled(19-08-09 18:53)
-        ☐ Parameterize Pareto
+        ✔ Use Burrito Bowl Function @done(19-08-10 13:28)
+        ✔ Parameterize Pareto @done(19-08-10 13:28)
     ✔ Allow On-The-Fly setting modification (from command line) @done(19-08-09 18:53)
     Genetics Upgrade:
         ☐ Use Genetic Algorithm terminology (phenotype, genotype, etc...)
-        ☐ Elitism - this will allow for higher mutation chances without degeneration
+        ✔ Elitism - this will allow for higher mutation chances without degeneration @done(19-08-10 13:30)
         ☐ Create crossover algorithm
             ☐ Parameterize this
         ✔ Remove Mass Killings from selection() - They are now unnecessary due to Pareto Selection @done(19-08-08 22:15)
