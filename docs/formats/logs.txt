@@ -1,0 +1,11 @@
+{
+    "optimizer": "genetic" | other?
+    "information": Object of various information about the optimizer
+    "settings": Object of all settings
+    "final_score": Final Score
+    "phenotype": Object containing phenotype information:
+        {
+            "rule_string": The rule string,
+            "function_space": The function space
+        }
+}

@@ -19,7 +19,7 @@ settings_files = [
 
 all_settings = settings_system.settings(settings_files)
 all_settings = settings_system.parseCommandLine(sys.argv, all_settings)
-settings = go.log['settings'] = o.settings = go.settings = all_settings.settings
+settings = o.settings = go.settings = all_settings.settings
 
 print("Settings: ", settings)
 
@@ -39,9 +39,13 @@ def main():
     print(f"Function Body: {sorted_scores[-1][1][0]}")
     print(f"RuleString: {sorted_scores[-1][1][1]}")
 
-    go.log['final'] = sorted_scores[-1][0]
-    go.log['function'] = sorted_scores[-1][1][0].tolist()
-    go.log['rs'] = sorted_scores[-1][1][1]
+    log = {'optimizer': 'genetic', 'information': go.log}
+    log['final_score'] = sorted_scores[-1][0]
+    log['phenotype'] = {
+        'function_space': sorted_scores[-1][1][0].tolist(),
+        'rule_string': sorted_scores[-1][1][1]
+    }
+    log['settings'] = settings
     
     file_location = settings['LOG_ROOT_FOLDER']+"//"+settings['LOG_SPECIFIC_FOLDER']
     #Create directory if it doesn't already exist
@@ -52,7 +56,7 @@ def main():
         pass
     file_name = str(datetime.datetime.today()).replace(" ","_").replace(":","-")[:-7]
     f = open(f"{file_location}//{file_name}.json","w")
-    json.dump(go.log, f)
+    json.dump(log, f)
     f.close()
 
 main()
