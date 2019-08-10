@@ -1,9 +1,9 @@
 from modules.compucell import compucell
 from modules.utility import cruncher
 from modules.optimization.genetic import helpers as go
-from modules.optimization.genetic import settings as go_settings
-from modules.utility.binary_tools import *
 from modules.utility import optimization as o
+from modules.utility import settings
+from modules.utility.binary_tools import *
 import sys
 import json
 import numpy as np
@@ -13,11 +13,16 @@ to_investigate = open(file_name, 'r')
 data = json.load(to_investigate)
 to_investigate.close()
 
+try:
+    settings = go.settings = o.settings = data['settings']
+except KeyError:
+    raise Exception("No settings key found in file. I need settings to reproduce all of the variables of the experiment. If this becomes a problem, I can fix this.")
+
 function_space = np.asarray(data['function'])
 ruleset_helper = o.functionProxy(data['rs'])
 ruleset = ruleset_helper.ruleset
 
-my_compucell = compucell.compucell(function_space, go_settings.ITERATIONS, ruleset)
+my_compucell = compucell.compucell(function_space, settings['ITERATIONS'], ruleset)
 my_evaluator = compucell.compucellEvaluator(o.evaluationFunction)
 
 selection = ""
@@ -50,12 +55,12 @@ elif selection == 'id':
     my_compucell.cellular_automata.verbose = True
     
     targets = []
-    for i in range(go_settings.INPUT_SPACE_SIZE):
+    for i in range(settings['INPUT_SPACE_SIZE']):
         bit_array = o.evaluationFunction(intToOneDBitArray(to_watch, 4))
         if bit_array[i] == 1:
-            targets.append((i, go_settings.FUNCTION_SPACE_SIZE))
+            targets.append((i, settings['FUNCTION_SPACE_SIZE']))
     my_compucell.cellular_automata.targets = targets
-    my_compucell.execute(intToOneDBitArray(to_watch, go_settings.INPUT_SPACE_SIZE))
+    my_compucell.execute(intToOneDBitArray(to_watch, settings['INPUT_SPACE_SIZE']))
 
 elif selection == 'rss':
     print("RULESET SIMPLIFICATION")
