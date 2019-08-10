@@ -37,9 +37,12 @@ def reproduction(batch):
     toReturn = []
     toReturn.append(batch[0]) #Elitism
     for i in range(settings['PHENOTYPES_PER_BATCH']-1):
-        index = burritoBowlMap(i)
-        parent = batch[index]
-        toReturn.append(mutatePhenotype(parent))
+        N = settings['PHENOTYPES_PER_BATCH']-1
+        parent1 = batch[burritoBowlMap(i)]
+        parent2 = batch[burritoBowlMap(random.randrange(0, N))]
+        child = combinePhenotypes(parent1, parent2)
+        mutated_child = mutatePhenotype(child)
+        toReturn.append(mutated_child)
     return toReturn
 
 def burritoBowlMap(x):
@@ -50,7 +53,7 @@ def burritoBowlMap(x):
     The Burrito Bowl function takes in a child and assigns it a parent's index based off of this idea.
     (I arrived at this function after a lot of algebra, so you will have to take my word for it that it works. Also try plotting it on your graphing calculator)
 
-    BB(x) = -(-2I+P-sqrt(4I^2+4PI+P^2-8PX))/2P
+    BB(x) = -(-2I+P+sqrt(4I^2+4PI+P^2-8PX))/2P
 
     If N is the number of children needing to be assigned, make sure that:
 
@@ -65,7 +68,7 @@ def burritoBowlMap(x):
 
     assert ((4*(I**2))+(4*P*I)+P**2)/8*P >= N-1, "Check parameters BB_P and BB_I"
     inside_sqr_root = 4*(I**2)+4*P*I+(P**2)-8*P*x
-    BB = -(2*I+P+math.sqrt(inside_sqr_root))/(2*P)
+    BB = -(-2*I+P+math.sqrt(inside_sqr_root))/(2*P)
     return math.ceil(BB)
 
 def mutatePhenotype(genetic_info):
@@ -101,3 +104,61 @@ def mutateFunctionBody(function_body):
         for y in range(function_body.shape[1]):
             new_function_body[x,y] = mutateBit(function_body[x,y])
     return new_function_body
+
+def combinePhenotypes(parent1_phenotype, parent2_phenotype):
+    '''
+    Takes in two PHENOTYPES and splices them together.
+    '''
+
+    return (combineFunctionBodies(parent1_phenotype[0], parent2_phenotype[0]), combineRuleStrings(parent1_phenotype[1], parent2_phenotype[1]))
+
+def combineRuleStrings(parent1_rule_string, parent2_rule_string):
+    '''
+    Takes in two RULE_STRINGs and splices them together.
+    '''
+
+    num_splices = settings['COMBINATION_SPLICES']
+    length = len(parent1_rule_string)
+    splice_indexes = [random.randrange(0, length) for i in range(num_splices)]
+
+    which_parent = 1
+    to_return = ""
+    for i in range(length):
+        if i in splice_indexes:
+            #Switch
+            if which_parent == 2:
+                which_parent = 1
+            else:
+                which_parent = 2
+        if which_parent == 1:
+            to_return+=parent1_rule_string[i]
+        else:
+            to_return+=parent2_rule_string[i]
+    return to_return
+
+def combineFunctionBodies(parent1_function_space, parent2_function_space):
+    '''
+    Takes in two FUNCTION_SPACEs and splices them together.
+    '''
+
+    num_splices = settings['COMBINATION_SPLICES']
+    length = parent1_function_space.size
+    splice_indexes = [random.randrange(0, length) for i in range(num_splices)]
+
+    current_position = 0
+    which_parent = 1
+    new_function_space = np.zeros(parent1_function_space.shape)
+    for x in range(parent1_function_space.shape[0]):
+        for y in range(parent1_function_space.shape[1]):
+            current_position+=1
+            if current_position in splice_indexes:
+                #Switch
+                if which_parent == 2:
+                    which_parent = 1
+                else:
+                    which_parent = 2
+            if which_parent == 1:
+                new_function_space[x,y] = parent1_function_space[x,y]
+            else:
+                new_function_space[x,y] = parent2_function_space[x,y]
+    return new_function_space
