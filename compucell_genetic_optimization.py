@@ -7,10 +7,12 @@ import numpy as np
 import os
 import random
 import time
+import datetime
 import sys
 import json
 
 settings_files = [
+    'globalDefaults.json',
     'modules\\utility\\optimizationDefaults.json',
     'modules\\optimization\\genetic\\defaults.json'
 ]
@@ -37,16 +39,19 @@ def main():
     print(f"Function Body: {sorted_scores[-1][1][0]}")
     print(f"RuleString: {sorted_scores[-1][1][1]}")
 
+    go.log['final'] = sorted_scores[-1][0]
     go.log['function'] = sorted_scores[-1][1][0].tolist()
     go.log['rs'] = sorted_scores[-1][1][1]
     
     file_location = settings['LOG_ROOT_FOLDER']+"//"+settings['LOG_SPECIFIC_FOLDER']
+    #Create directory if it doesn't already exist
     try:
         os.makedirs(file_location)
     except FileExistsError:
         # directory already exists
         pass
-    f = open(f"{file_location}//{go.log['start_time']}.txt","w")
+    file_name = str(datetime.datetime.today()).replace(" ","_").replace(":","-")[:-7]
+    f = open(f"{file_location}//{file_name}.json","w")
     json.dump(go.log, f)
     f.close()
 
