@@ -2,7 +2,7 @@ from modules.compucell import compucell
 from modules.utility import cruncher
 from modules.optimization.genetic import helpers as go
 from modules.utility import optimization as o
-from modules.utility import settings
+from modules.utility import settings as settings_system
 from modules.utility.binary_tools import *
 import sys
 import json
@@ -18,8 +18,8 @@ try:
 except KeyError:
     raise Exception("No settings key found in file. I need settings to reproduce all of the variables of the experiment. If this becomes a problem, I can fix this.")
 
-function_space = np.asarray(data['function'])
-ruleset_helper = o.functionProxy(data['rs'])
+function_space = np.asarray(data['phenotype']['function_space'])
+ruleset_helper = o.functionProxy(data['phenotype']['rule_string'])
 ruleset = ruleset_helper.ruleset
 
 my_compucell = compucell.compucell(function_space, settings['ITERATIONS'], ruleset)
@@ -64,7 +64,7 @@ elif selection == 'id':
 
 elif selection == 'rss':
     print("RULESET SIMPLIFICATION")
-    on_indexes = [i for i in range(512) if data['rs'][i] == '1']
+    on_indexes = [i for i in range(512) if data['phenotype']['rule_string'][i] == '1']
     on_indexes_binary = []
     for i in on_indexes:
         bit_array = intToOneDBitArray(i, 9)
