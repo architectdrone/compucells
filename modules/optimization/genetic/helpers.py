@@ -7,12 +7,29 @@ import time
 import datetime
 import math
 
-#from . import settings
 settings = {}
 log = {
     'avgs': [],
     'bests': [],
 }
+
+def histogram(evaluated_batch):
+    '''
+    Puts a text based histrogram of scores on the command line.
+    '''
+    INCREMENTS = 5
+    at_each = [0 for _ in range(int(100/INCREMENTS))]
+    for i in evaluated_batch:
+        score = i[0]
+        index = int(math.floor((score*100)/INCREMENTS))
+        at_each[index]+=1
+    for i, e in enumerate(at_each):
+        if e == 0:
+            bar = ""
+        else:
+            bar = "X"*int(((e/10)+1))
+        print(f"{i*INCREMENTS}: {bar}")
+
 
 def selection(ranked_batch):
     '''

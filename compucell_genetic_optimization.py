@@ -28,7 +28,9 @@ def main():
     for i in range(settings['RUNS']):
         print(f"[MAIN] RUN {i}")
         start_time = time.time()
-        selected = go.selection(o.performanceEvalulation(current_generation))
+        evaluated_batch = o.performanceEvalulation(current_generation)
+        go.histogram(evaluated_batch)
+        selected = go.selection(evaluated_batch)
         if go.log["bests"][-1] >= settings['PERFORMANCE_THRESHOLD']:
             break
         current_generation = go.reproduction(selected)
