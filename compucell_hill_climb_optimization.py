@@ -6,6 +6,7 @@ import time
 import json
 import os
 import datetime
+import numpy as np
 
 settings_files = [
     'globalDefaults.json',
@@ -20,7 +21,14 @@ settings = o.settings = hco.settings = all_settings.settings
 print("Settings: ", settings)
 
 def main():
-    current_generation = o.generateInitialBatch()
+    if 'STARTING_RULESET' in settings and 'STARTING_FUNCTION_SPACE' in settings:
+        print("Using predefined starting point!")
+        starting_ruleset = settings['STARTING_RULESET']
+        starting_function_space = np.asarray(eval(settings['STARTING_FUNCTION_SPACE']))
+        current_generation = [(starting_function_space, starting_ruleset)]
+    else:
+        current_generation = o.generateInitialBatch()
+
     highest_scoring_optima = () #PHENOTYPE. Optima with highest score
     highest_scoring_optima_score = 0 #The score of the highest scoring optima
     run_number = 0
