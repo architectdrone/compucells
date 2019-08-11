@@ -29,9 +29,12 @@ def main():
         print(f"[MAIN] RUN {i}")
         start_time = time.time()
         selected = go.selection(o.performanceEvalulation(current_generation))
+        if go.log["bests"][-1] >= settings['PERFORMANCE_THRESHOLD']:
+            break
         current_generation = go.reproduction(selected)
         end_time = time.time()
         print(f"[MAIN] Run {i} took {end_time - start_time} seconds.")
+    
     scores = o.performanceEvalulation(current_generation)
     sorted_scores = sorted(scores, key=lambda t: t[0])
     print("ALRIGHT, WE'RE DONE HERE.")
