@@ -44,24 +44,13 @@ def main():
     print(f"Function Body: {sorted_scores[-1][1][0]}")
     print(f"RuleString: {sorted_scores[-1][1][1]}")
 
-    log = {'optimizer': 'genetic', 'information': go.log}
-    log['final_score'] = sorted_scores[-1][0]
-    log['phenotype'] = {
+    final_score = sorted_scores[-1][0]
+    final_phenotype = {
         'function_space': sorted_scores[-1][1][0].tolist(),
         'rule_string': sorted_scores[-1][1][1]
     }
-    log['settings'] = settings
-    
-    file_location = settings['LOG_ROOT_FOLDER']+"//"+settings['LOG_SPECIFIC_FOLDER']
-    #Create directory if it doesn't already exist
-    try:
-        os.makedirs(file_location)
-    except FileExistsError:
-        # directory already exists
-        pass
-    file_name = str(datetime.datetime.today()).replace(" ","_").replace(":","-")[:-7]
-    f = open(f"{file_location}//{file_name}.json","w")
-    json.dump(log, f)
-    f.close()
+    final_ranked_phenotype = (final_score, final_phenotype)
+
+    o.recordAll(final_ranked_phenotype, go.log)
 
 main()

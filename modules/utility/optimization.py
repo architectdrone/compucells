@@ -3,6 +3,9 @@ import random
 from .binary_tools import *
 from ..compucell import compucell as cc
 from ..compucell import cellular_automata as ca
+import datetime
+import json
+import os
 
 settings = {}
 
@@ -69,3 +72,40 @@ def performanceEvalulation(batch):
         toReturn.append((my_evaluator.evaluate(compucell_to_evaluate), i))
 
     return toReturn
+
+def recordAll(best_phenotype, additional_information):
+    '''
+    Creates a log.
+    @param best_phenotype A RANKED_PHENOTYPE that represents the best performer found.
+    @param additional_information A dictionary that contains information that does not fall into the kosher categories.
+    '''
+    log = {'optimizer': 'genetic', 'information': additional_information}
+    log['final_score'] = best_phenotype[0]
+    log['phenotype'] = best_phenotype[1]
+    log['settings'] = settings
+    
+    file_location = settings['LOG_ROOT_FOLDER']+"//"+settings['LOG_SPECIFIC_FOLDER']
+    file_name = settings['FUNCTION_NAME']+"-"+str(best_phenotype[0])
+    writeAll(log, file_location, prepended_name=file_name)
+    if log['final_score'] == 1.0:
+        file_location = settings['LOG_ROOT_FOLDER']+"//"+settings['LOG_PERFECT_FOLDER']
+        writeAll(log, file_location, prepended_name=file_name)
+    
+
+def writeAll(to_write, path, prepended_name = ""):
+    '''
+    Writes a dictionary to a filepath, and creates file path if it doesn't exist.
+    '''
+
+    #Create directory if it doesn't already exist
+    try:
+        os.makedirs(path)
+    except FileExistsError:
+        # directory already exists
+        pass
+    file_name = str(datetime.datetime.today()).replace(" ","_").replace(":","-")[:-7]
+    file_name = prepended_name+"_"+file_name
+    print(f"Putting logs at {path}//{file_name}.json.")
+    f = open(f"{path}//{file_name}.json","w")
+    json.dump(to_write, f)
+    f.close()

@@ -86,25 +86,12 @@ def main():
     print(f"Max: {highest_scoring_optima_score}")
     print(f"Function Body: {highest_scoring_optima[0]}")
     print(f"RuleString: {highest_scoring_optima[1]}")
-
-    log = {'optimizer': 'genetic', 'information': internal_log}
-    log['final_score'] = highest_scoring_optima_score
-    log['phenotype'] = {
+    final_score = highest_scoring_optima_score
+    final_phenotype = {
         'function_space': highest_scoring_optima[0].tolist(),
         'rule_string': highest_scoring_optima[1]
     }
-    log['settings'] = settings
-    
-    file_location = settings['LOG_ROOT_FOLDER']+"//"+settings['LOG_SPECIFIC_FOLDER']
-    #Create directory if it doesn't already exist
-    try:
-        os.makedirs(file_location)
-    except FileExistsError:
-        # directory already exists
-        pass
-    file_name = str(datetime.datetime.today()).replace(" ","_").replace(":","-")[:-7]
-    f = open(f"{file_location}//{file_name}.json","w")
-    json.dump(log, f)
-    f.close()
+    final_ranked_phenotype = (final_score, final_phenotype)
+    o.recordAll(final_ranked_phenotype, internal_log)
 
 main()
