@@ -1,0 +1,5 @@
+{
+    "K_MAX": "@int((FUNCTION_SPACE_SIZE*INPUT_SPACE_SIZE+512)*0.98)",
+    "INITIAL_TEMPERATURE": 25000,
+    "LOG_SPECIFIC_FOLDER": "simulated_annealing"
+}
