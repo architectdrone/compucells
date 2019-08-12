@@ -56,7 +56,7 @@ def reproduction(batch):
     for i in range(settings['PHENOTYPES_PER_BATCH']-1):
         N = settings['PHENOTYPES_PER_BATCH']-1
         parent1 = batch[burritoBowlMap(i)]
-        parent2 = batch[burritoBowlMap(random.randrange(0, N))]
+        parent2 = batch[burritoBowlMap(i)+1] #Take the next top performer and mate with it. This forbids incest, which is probably a good thing. (?)
         child = combinePhenotypes(parent1, parent2)
         mutated_child = mutatePhenotype(child)
         toReturn.append(mutated_child)
