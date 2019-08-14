@@ -82,7 +82,7 @@ def main():
         print(f"[MAIN] Run {run_number} took {end_time - start_time} seconds.")
         run_number+=1
     
-    print("ALRIGHT, WE'RE DONE HERE.")
+    print("WELL SEYMORE, I MADE IT, DESPITE YOUR DIRECTIONS.")
     print(f"Max: {highest_scoring_optima_score}")
     print(f"Function Body: {highest_scoring_optima[0]}")
     print(f"RuleString: {highest_scoring_optima[1]}")
