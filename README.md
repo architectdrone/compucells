@@ -28,7 +28,7 @@ Primarily, three things:
 
 ## What are the differences between the optimizers? Which one is best?
 
-Genetic - This one is awesome. It is fast and you get to watch a species of compucells rise up like you are some kind of eldrich god. However, it tends to get stuck on optima.
+Genetic - This one is awesome. It is fast and you get to watch a species of compucells rise up like you are some kind of eldrich god. However, it tends to get stuck on local optima.
 
 Hill Climb - This is pretty reliable, but takes forever, because when there are multiple most positive gradients, it takes all of them, which means that the number of tests multiplies.
 
