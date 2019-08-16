@@ -8,7 +8,7 @@ A compucell is a cellular automata plane, with a set of rules and initial state 
 
 The compucell hypothesis is: Any deterministic function can be represented perfectly as a compucell if a correct shape and number of iterations is chosen.
 
-## Is the compucell hypothesis true? Has it been proven?
+## Has it been proven?
 
 No, of course not. That's why it is a hypothesis.
 
